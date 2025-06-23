@@ -27,7 +27,7 @@ const Navbar = () => {
                             </a>
                         </li>
                         <li><a>Settings</a></li>
-                        <NavLink to='/login'><li><a>Login</a></li></NavLink>
+                        <NavLink to='/signin'><li><a>SignIn</a></li></NavLink>
                         <li><a>Logout</a></li>
                     </ul>
                 </div>
