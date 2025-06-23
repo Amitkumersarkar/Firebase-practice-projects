@@ -1,18 +1,32 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import auth from "../../Firebase/Firebase.init";
+import { useState } from "react";
 
 const Signin = () => {
+
+    const [user, setUser] = useState(null);
 
     const provider = new GoogleAuthProvider();
 
     const handleGoogleSignIn = () => {
         signInWithPopup(auth, provider)
             .then(result => {
-                console.log(result);
+                console.log(result.user);
+                setUser(result.user);
             })
             .catch(error => {
                 console.log('ERROR', error)
+                setUser(null);
             })
+    }
+
+    const handleSignOut = () => {
+        signOut(auth)
+            .then(() => {
+                console.log('signOut Done');
+                setUser(null);
+            })
+            .catch(error => console.log(error))
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -35,6 +49,12 @@ const Signin = () => {
                             <input type="password" className="input" placeholder="Password" />
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button onClick={handleGoogleSignIn} className="btn btn-neutral mt-4">SignIn</button>
+                            <button onClick={handleSignOut} className="btn btn-neutral mt-4">SignOut</button>
+                            {user && <div>
+                                <h4>{user.displayName}</h4>
+                                <p>Email : {user.email}</p>
+                                <img src={user.photoURL} alt="" />
+                            </div>}
                         </fieldset>
                     </div>
                 </div>
